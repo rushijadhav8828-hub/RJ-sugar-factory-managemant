@@ -454,6 +454,13 @@ transform:translateY(0);
   <div id="p-yad" class="panel">
     <div class="card">
       <div class="ct">📋 शेतकरी यादी</div>
+
+<button onclick="exportFarmers()" class="btn bp">
+📥 Export Farmers (Excel)
+</button>
+        <br><br>
+
+        
       <div class="sb2">
         <input id="s-q" placeholder="🔍 नाव, गाव किंवा क्रमांक शोधा..." oninput="renderTable()">
         <select id="s-sea" onchange="renderTable()">
@@ -703,7 +710,35 @@ location.reload()
 
 }
 
+function exportFarmers(){
 
+let farmers = JSON.parse(localStorage.getItem('sf_sh') || '[]');
+
+if(farmers.length === 0){
+alert("No farmer data available");
+return;
+}
+
+let csv = "ID,Name,Village,Mobile,Area,Oos,Season\n";
+
+farmers.forEach(f => {
+
+csv += `${f.id},${f.name},${f.village},${f.mobile},${f.area},${f.oos},${f.season}\n`;
+
+});
+
+let blob = new Blob([csv], { type: 'text/csv' });
+
+let url = window.URL.createObjectURL(blob);
+
+let a = document.createElement("a");
+
+a.href = url;
+a.download = "farmers_data.csv";
+
+a.click();
+
+}
 </script>
 </body>
 </html>
