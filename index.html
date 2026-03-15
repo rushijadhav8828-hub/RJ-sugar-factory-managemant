@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>साखर कारखाना - शेतकरी व्यवस्थापन</title>
+<style>
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+:root{--g:#ab1336;--gl:#2113bd;--gp:#d8f3dc;--gold:#f4a300;--cr:#fefae0;--dark:#1b2117;--gray:#6b7280;--red:#dc2626;--bd:#b7d4be;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Rajdhani',sans-serif;background:linear-gradient(135deg,#e8f5e9,#f9fbe7,#fff8e1);min-height:100vh;color:var(--dark);}
+header{background:linear-gradient(135deg,var(--g),#a8d63b);padding:0;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.hdr{max-width:1200px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:14px;}
+.logo{width:55px;height:55px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.hdr h1{font-size:22px;font-weight:700;color:#fff;line-height:1.2;}
+.hdr p{color:var(--gp);font-size:12px;letter-spacing:1px;}
+.hstats{margin-left:auto;display:flex;gap:16px;text-align:center;}
+.sb{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:8px 18px;}
+.sb .n{font-size:22px;font-weight:700;color:#ffd166;}
+.sb .l{font-size:11px;color:var(--gp);}
+main{max-width:1200px;margin:0 auto;padding:20px;}
+.tabs{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.8);border-radius:14px;padding:7px;border:1px solid var(--bd);box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.tb{flex:1;padding:11px 6px;border:none;background:transparent;border-radius:10px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;color:var(--gray);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px;}
+.tb.active{background:var(--g);color:#fff;box-shadow:0 4px 12px rgba(213, 208, 212, 0.35);}
+.tb:hover:not(.active){background:var(--gp);color:var(--g);}
+.panel{display:none;}.panel.active{display:block;animation:fi .3s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:rgba(255,255,255,.92);border-radius:16px;border:1px solid var(--bd);padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.05);margin-bottom:18px;}
+.ct{font-size:18px;font-weight:700;color:var(--g);margin-bottom:18px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid var(--gp);}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.fg label{font-size:12px;font-weight:600;color:var(--g);display:block;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;border:1.5px solid var(--bd);border-radius:9px;font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--dark);background:#fff;outline:none;transition:border-color .2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(45,106,79,.1);}
+.fg textarea{resize:vertical;min-height:70px;}
+.fa{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+.btn{padding:11px 24px;border:none;border-radius:9px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.bp{background:linear-gradient(135deg,var(--g),var(--gl));color:#fff;box-shadow:0 4px 12px rgba(45,106,79,.3);}
+.bp:hover{transform:translateY(-1px);}
+.be{background:#fef3c7;color:#92400e;}
+.be:hover{background:var(--gold);color:#fff;}
+.bd2{background:#fee2e2;color:var(--red);}
+.bd2:hover{background:var(--red);color:#fff;}
+.bgo{background:linear-gradient(135deg,var(--gold),#ffd166);color:var(--dark);}
+.bsm{padding:6px 12px;font-size:12px;border-radius:7px;}
+.sb2{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.sb2 input,.sb2 select{padding:9px 12px;border:1.5px solid var(--bd);border-radius:9px;font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;flex:1;min-width:140px;}
+.sb2 input:focus{border-color:var(--g);}
+.tw{overflow-x:auto;border-radius:11px;border:1px solid var(--bd);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead{background:var(--g);color:#fff;}
+thead th{padding:12px 12px;text-align:left;font-weight:600;font-size:12px;letter-spacing:.4px;}
+tbody tr{border-bottom:1px solid #e9f5ec;transition:background .15s;}
+tbody tr:hover{background:var(--gp);}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:11px 12px;vertical-align:middle;}
+.es{text-align:center;padding:40px 20px;color:var(--gray);font-size:15px;}
+.es .ei{font-size:44px;display:block;margin-bottom:10px;}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.bg2{background:#d1fae5;color:#a82483;}
+.by{background:#fef3c7;color:#92400e;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:13px;padding:18px;border:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center;transition:transform .2s;}
+.sc:hover{transform:translateY(-2px);}
+.sc .si{font-size:30px;margin-bottom:6px;display:block;}
+.sc .sv{font-size:26px;font-weight:700;color:var(--g);}
+.sc .sd{font-size:12px;color:var(--gray);margin-top:3px;}
+.ss{background:linear-gradient(135deg,var(--gold),#f77f00);border-radius:11px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:10px;color:#fff;font-weight:600;}
+.notif{position:fixed;top:18px;right:18px;background:var(--g);color:#fff;padding:12px 18px;border-radius:11px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.2);transform:translateX(120%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:1000;}
+.notif.show{transform:translateX(0);}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;}
+.mo.open{display:flex;}
+.mbox{background:#fff;border-radius:16px;padding:24px;width:90%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:mi .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes mi{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.mt{font-size:18px;font-weight:700;color:var(--g);margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;}
+.mc{background:#f3f4f6;border:none;border-radius:7px;width:30px;height:30px;cursor:pointer;font-size:16px;}
+@media(max-width:640px){.hstats{display:none;}.hdr h1{font-size:17px;}.tabs{flex-wrap:wrap;}main{padding:10px;}}
+
+
+<style>
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* Animated Background */
+
+body{
+background:linear-gradient(135deg,#e8f5e9,#d8f3dc,#fefae0);
+min-height:100vh;
+animation:bg 10s infinite alternate;
+}
+
+@keyframes bg{
+0%{background-position:left;}
+100%{background-position:right;}
+}
+
+/* Header */
+
+header{
+background:linear-gradient(135deg,#2d6a4f,#1b4332);
+color:white;
+padding:18px 30px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+animation:slideDown 1s ease;
+}
+
+@keyframes slideDown{
+from{
+transform:translateY(-60px);
+opacity:0;
+}
+to{
+transform:translateY(0);
+opacity:1;
+}
+}
+
+/* Dashboard Cards */
+
+.sgrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin:20px 0;
+}
+
+.sc{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+transition:0.4s;
+animation:fadeUp 0.8s ease;
+}
+
+.sc:hover{
+transform:translateY(-10px) scale(1.03);
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+.si{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.sv{
+font-size:26px;
+font-weight:600;
+color:#2d6a4f;
+}
+
+.sd{
+font-size:13px;
+color:#666;
+}
+
+/* Table */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+thead{
+background:#2d6a4f;
+color:white;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+tbody tr{
+transition:0.3s;
+}
+
+tbody tr:hover{
+background:#d8f3dc;
+transform:scale(1.01);
+}
+
+/* Buttons */
+
+.btn{
+padding:8px 15px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+transition:0.3s;
+}
+
+.bp{
+background:#2d6a4f;
+color:white;
+}
+
+.bp:hover{
+transform:scale(1.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.bd2{
+background:#dc2626;
+color:white;
+}
+
+.bd2:hover{
+transform:scale(1.1);
+}
+
+/* Form */
+
+input,select,textarea{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+outline:none;
+transition:0.3s;
+}
+
+input:focus,select:focus{
+border-color:#2d6a4f;
+box-shadow:0 0 8px rgba(45,106,79,0.3);
+}
+
+/* Card container */
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+margin-bottom:20px;
+animation:fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* Notification */
+
+.notif{
+position:fixed;
+top:20px;
+right:20px;
+background:#2d6a4f;
+color:white;
+padding:12px 20px;
+border-radius:10px;
+transform:translateX(120%);
+transition:0.5s;
+}
+
+.notif.show{
+transform:translateX(0);
+}
+
+#loginPage{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#161415,#c6ccca);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.login-box{
+background:white;
+padding:40px;
+border-radius:12px;
+width:300px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+animation:fadeUp 0.8s ease;
+}
+
+.login-box h2{
+margin-bottom:20px;
+color:goldenrod;
+}
+
+.login-box input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.login-box button{
+width:100%;
+padding:10px;
+background:gold;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.login-box button:hover{
+background:gold;
+}
+
+#loginMsg{
+color:red;
+margin-top:10px;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+
+
+</style>
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+
+<div class="login-box">
+
+<h2>🏭 Sugar Factory Admin Login</h2>
+
+<input type="text" id="adminUser" placeholder="Username">
+
+<input type="password" id="adminPass" placeholder="Password">
+
+<button onclick="adminLogin()">Login</button>
+
+<p id="loginMsg"></p>
+
+</div>
+
+</div>
+
+
+
+
+<header>
+
+
+<button onclick="logout()">Logout</button>
+
+
+
+
+
+    
+  <div class="hdr">
+    <div class="logo">🏭</div>
+    <div>
+      <h1>साखर कारखाना व्यवस्थापन</h1>
+      <p>SHETKARI DATA MANAGEMENT SYSTEM</p>
+    </div>
+    <div class="hstats">
+      <div class="sb"><div class="n" id="hdr-t">0</div><div class="l">एकूण शेतकरी</div></div>
+      <div class="sb"><div class="n" id="hdr-o">0</div><div class="l">एकूण ऊस (टन)</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tb active" onclick="showTab('non',this)">📝 नोंदणी</button>
+    <button class="tb" onclick="showTab('yad',this)">📋 यादी</button>
+    <button class="tb" onclick="showTab('pay',this)">💰 पेमेंट</button>
+    <button class="tb" onclick="showTab('aha',this)">📊 अहवाल</button>
+  </div>
+
+  <!-- NONDANI -->
+  <div id="p-non" class="panel active">
+    <div class="card">
+      <div class="ct">🌾 शेतकरी नोंदणी फॉर्म</div>
+      <div class="fg">
+        <div><label>शेतकरी क्रमांक</label><input id="f-id" readonly style="background:#f3f4f6;"></div>
+        <div><label>पूर्ण नाव *</label><input id="f-name" placeholder="उदा. रामराव पाटील"></div>
+        <div><label>गाव *</label><input id="f-village" placeholder="उदा. शिरूर"></div>
+        <div><label>तालुका</label><input id="f-taluka" placeholder="उदा. करमाळा"></div>
+        <div><label>मोबाईल नंबर *</label><input id="f-mobile" type="tel" placeholder="9XXXXXXXXX" maxlength="10"></div>
+        <div><label>आधार क्रमांक</label><input id="f-aadhar" placeholder="XXXX XXXX XXXX" maxlength="12"></div>
+        <div><label>जमीन (एकर) *</label><input id="f-area" type="number" placeholder="0.00" step="0.01"></div>
+        <div><label>ऊस प्रकार *</label>
+          <select id="f-variety">
+            <option value="">-- निवडा --</option>
+            <option>Co 86032</option><option>MS 10001</option><option>Co 265</option>
+            <option>CoM 0265</option><option>Phule 10015</option><option>इतर</option>
+          </select>
+        </div>
+        <div><label>अपेक्षित ऊस (टन)</label><input id="f-oos" type="number" placeholder="0" step="0.1"></div>
+        <div><label>हंगाम</label>
+          <select id="f-season"><option>2024-25</option><option selected>2025-26</option><option>2026-27</option></select>
+        </div>
+        <div><label>बँक खाते क्रमांक</label><input id="f-bank" placeholder="खाते क्रमांक"></div>
+        <div><label>IFSC कोड</label><input id="f-ifsc" placeholder="SBIN0001234"></div>
+        <div style="grid-column:1/-1"><label>पत्ता</label><textarea id="f-addr" placeholder="संपूर्ण पत्ता लिहा..."></textarea></div>
+      </div>
+      <div class="fa">
+        <button class="btn bp" onclick="saveShetkari()">✅ नोंदणी करा</button>
+        <button class="btn be" onclick="clearForm()">🔄 रद्द करा</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YADI -->
+  <div id="p-yad" class="panel">
+    <div class="card">
+      <div class="ct">📋 शेतकरी यादी</div>
+      <div class="sb2">
+        <input id="s-q" placeholder="🔍 नाव, गाव किंवा क्रमांक शोधा..." oninput="renderTable()">
+        <select id="s-sea" onchange="renderTable()">
+          <option value="">सर्व हंगाम</option>
+          <option>2024-25</option><option>2025-26</option><option>2026-27</option>
+        </select>
+        <select id="s-vil" onchange="renderTable()"><option value="">सर्व गावे</option></select>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>क्र.</th><th>नाव</th><th>गाव</th><th>मोबाईल</th><th>क्षेत्र</th><th>ऊस(टन)</th><th>प्रकार</th><th>हंगाम</th><th>कृती</th></tr></thead>
+          <tbody id="s-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT -->
+  <div id="p-pay" class="panel">
+    <div class="card">
+      <div class="ct">💰 पेमेंट नोंद</div>
+      <div class="fg">
+        <div><label>शेतकरी निवडा *</label><select id="p-she"><option value="">-- निवडा --</option></select></div>
+        <div><label>दिनांक *</label><input id="p-dt" type="date"></div>
+        <div><label>ऊस वजन (टन)</label><input id="p-wt" type="number" placeholder="0.00" step="0.01" oninput="calcAmt()"></div>
+        <div><label>दर (₹/टन)</label><input id="p-rt" type="number" placeholder="3500" oninput="calcAmt()"></div>
+        <div><label>एकूण रक्कम (₹)</label><input id="p-am" readonly style="background:#f0fdf4;font-weight:700;color:#166534;"></div>
+        <div><label>पेमेंट प्रकार</label>
+          <select id="p-tp"><option>NEFT/RTGS</option><option>चेक</option><option>रोख</option><option>UPI</option></select>
+        </div>
+        <div><label>व्यवहार / चेक क्रमांक</label><input id="p-tx" placeholder="क्रमांक"></div>
+        <div><label>शेरा</label><input id="p-nt" placeholder="इतर माहिती"></div>
+      </div>
+      <div class="fa">
+        <button class="btn bgo" onclick="savePayment()">💵 पेमेंट नोंदवा</button>
+        <button class="btn be" onclick="clearPay()">🔄 रद्द करा</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">📑 पेमेंट इतिहास</div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>शेतकरी</th><th>दिनांक</th><th>वजन</th><th>दर</th><th>रक्कम(₹)</th><th>प्रकार</th><th>व्यवहार क्र.</th><th>कृती</th></tr></thead>
+          <tbody id="p-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- AHAVAL -->
+  <div id="p-aha" class="panel">
+    <div class="ss">🌾 हंगाम 2025-26 — एकत्रित अहवाल</div>
+    <div class="sgrid" id="sum-grid"></div>
+    <div class="card">
+      <div class="ct">🏘️ गावनिहाय सारांश</div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>गाव</th><th>शेतकरी</th><th>क्षेत्र(एकर)</th><th>ऊस(टन)</th><th>पेमेंट(₹)</th></tr></thead>
+          <tbody id="v-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- EDIT MODAL -->
+<div class="mo" id="emodal">
+  <div class="mbox">
+    <div class="mt">✏️ माहिती संपादन <button class="mc" onclick="closeModal()">✕</button></div>
+    <div class="fg" id="mfg"></div>
+    <div class="fa"><button class="btn bp" onclick="saveEdit()">💾 जतन करा</button><button class="btn be" onclick="closeModal()">रद्द</button></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+let data = JSON.parse(localStorage.getItem('sf_sh') || '[]');
+let pays = JSON.parse(localStorage.getItem('sf_py') || '[]');
+let eidx = -1;
+let cnt = data.length ? Math.max(...data.map(s=>parseInt(s.id.replace('SK-','')))) + 1 : 1;
+
+function sv(){localStorage.setItem('sf_sh',JSON.stringify(data));localStorage.setItem('sf_py',JSON.stringify(pays));updHdr();}
+function updHdr(){document.getElementById('hdr-t').textContent=data.length;document.getElementById('hdr-o').textContent=data.reduce((s,x)=>s+(parseFloat(x.oos)||0),0).toFixed(1);}
+function ntfy(m,c='#2d6a4f'){const n=document.getElementById('notif');n.textContent=m;n.style.background=c;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800);}
+function nid(){return 'RJ-'+String(cnt++).padStart(3,'0');}
+function g(id){return document.getElementById(id).value.trim();}
+
+document.getElementById('p-dt').valueAsDate=new Date();
+document.getElementById('f-id').value=nid();
+
+function showTab(t,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+t).classList.add('active');
+  btn.classList.add('active');
+  if(t==='yad'){renderTable();updVil();}
+  if(t==='pay'){renderPayTable();popSel();}
+  if(t==='aha')renderRep();
+}
+
+function saveShetkari(){
+  const name=g('f-name'),village=g('f-village'),mobile=g('f-mobile');
+  if(!name||!village||!mobile)return ntfy('⚠️ नाव, गाव, मोबाईल आवश्यक आहे!','#b45309');
+  if(mobile.length!==10||isNaN(mobile))return ntfy('⚠️ मोबाईल 10 अंकी असावा!','#b45309');
+  const id=document.getElementById('f-id').value;
+  data.push({id,name,village,taluka:g('f-taluka'),mobile,aadhar:g('f-aadhar'),area:g('f-area'),variety:g('f-variety'),oos:g('f-oos'),season:g('f-season'),bank:g('f-bank'),ifsc:g('f-ifsc'),addr:g('f-addr'),date:new Date().toLocaleDateString('mr-IN')});
+  sv();ntfy('✅ नोंदणी यशस्वी! '+name);clearForm();
+}
+
+function clearForm(){
+  ['f-name','f-village','f-taluka','f-mobile','f-aadhar','f-area','f-oos','f-bank','f-ifsc','f-addr'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-variety').value='';document.getElementById('f-season').value='2025-26';
+  document.getElementById('f-id').value=nid();
+}
+
+function renderTable(){
+  const q=g('s-q').toLowerCase(),fs=g('s-sea'),fv=g('s-vil');
+  let d=data.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.village.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!fs||s.season===fs)&&(!fv||s.village===fv));
+  const tb=document.getElementById('s-tbody');
+  if(!d.length){tb.innerHTML='<tr><td colspan="10"><div class="es"><span class="ei">🌾</span>कोणताही डेटा नाही</div></td></tr>';return;}
+  tb.innerHTML=d.map((s,i)=>`<tr>
+    <td>${i+1}</td><td><b>${s.id}</b></td><td>${s.name}</td>
+    <td>${s.village}${s.taluka?', '+s.taluka:''}</td>
+    <td>📞${s.mobile}</td><td>${s.area||'-'}</td><td>${s.oos||'-'}</td>
+    <td><span class="badge bg2">${s.variety||'-'}</span></td>
+    <td><span class="badge by">${s.season}</span></td>
+    <td style="display:flex;gap:5px">
+      <button class="btn be bsm" onclick="editS('${s.id}')">✏️</button>
+      <button class="btn bd2 bsm" onclick="delS('${s.id}')">🗑️</button>
+    </td>
+  </tr>`).join('');
+}
+
+function updVil(){
+  const sel=document.getElementById('s-vil');
+  const v=[...new Set(data.map(s=>s.village))].sort();
+  sel.innerHTML='<option value="">सर्व गावे</option>'+v.map(x=>`<option>${x}</option>`).join('');
+}
+
+function delS(id){
+  if(!confirm('हा शेतकरी हटवायचा आहे का?'))return;
+  data=data.filter(s=>s.id!==id);sv();renderTable();ntfy('🗑️ शेतकरी हटवला','#dc2626');
+}
+
+function editS(id){
+  const s=data.find(x=>x.id===id);eidx=data.findIndex(x=>x.id===id);
+  const fs=[['name','नाव','text',s.name],['village','गाव','text',s.village],['taluka','तालुका','text',s.taluka],['mobile','मोबाईल','tel',s.mobile],['area','क्षेत्र(एकर)','number',s.area],['oos','ऊस(टन)','number',s.oos],['bank','बँक खाते','text',s.bank],['ifsc','IFSC','text',s.ifsc]];
+  document.getElementById('mfg').innerHTML=fs.map(([k,l,t,v])=>`<div><label>${l}</label><input type="${t}" id="e-${k}" value="${v||''}"></div>`).join('');
+  document.getElementById('emodal').classList.add('open');
+}
+
+function saveEdit(){
+  const s=data[eidx];
+  ['name','village','taluka','mobile','area','oos','bank','ifsc'].forEach(k=>{s[k]=document.getElementById('e-'+k).value;});
+  sv();closeModal();renderTable();ntfy('✅ माहिती अपडेट केली!');
+}
+function closeModal(){document.getElementById('emodal').classList.remove('open');}
+
+function calcAmt(){const w=parseFloat(document.getElementById('p-wt').value)||0,r=parseFloat(document.getElementById('p-rt').value)||0;document.getElementById('p-am').value=(w*r).toFixed(2);}
+
+function popSel(){
+  const sel=document.getElementById('p-she');
+  sel.innerHTML='<option value="">-- निवडा --</option>'+data.map(s=>`<option value="${s.id}">${s.id} - ${s.name} (${s.village})</option>`).join('');
+}
+
+function savePayment(){
+  const sid=g('p-she');if(!sid)return ntfy('⚠️ शेतकरी निवडा!','#b45309');
+  const s=data.find(x=>x.id===sid);
+  pays.push({id:'PAY-'+Date.now(),sid,name:s.name,village:s.village,date:document.getElementById('p-dt').value,wt:g('p-wt'),rt:g('p-rt'),am:document.getElementById('p-am').value,tp:g('p-tp'),tx:g('p-tx'),nt:g('p-nt')});
+  sv();ntfy('💰 पेमेंट नोंद यशस्वी! ₹'+document.getElementById('p-am').value);clearPay();renderPayTable();
+}
+
+function clearPay(){
+  ['p-she','p-wt','p-rt','p-tx','p-nt'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('p-am').value='';document.getElementById('p-dt').valueAsDate=new Date();
+}
+
+function renderPayTable(){
+  const tb=document.getElementById('p-tbody');
+  if(!pays.length){tb.innerHTML='<tr><td colspan="9"><div class="es"><span class="ei">💰</span>पेमेंट नोंद नाही</div></td></tr>';return;}
+  tb.innerHTML=[...pays].reverse().map((p,i)=>`<tr>
+    <td>${i+1}</td><td><b>${p.name}</b><br><small>${p.village}</small></td>
+    <td>${p.date}</td><td>${p.wt}</td><td>₹${p.rt}</td>
+    <td><b style="color:#166534">₹${parseFloat(p.am||0).toLocaleString('en-IN')}</b></td>
+    <td><span class="badge bg2">${p.tp}</span></td><td>${p.tx||'-'}</td>
+    <td><button class="btn bd2 bsm" onclick="delPay('${p.id}')">🗑️</button></td>
+  </tr>`).join('');
+}
+
+function delPay(id){if(!confirm('हे पेमेंट हटवायचे?'))return;pays=pays.filter(p=>p.id!==id);sv();renderPayTable();ntfy('🗑️ हटवले','#dc2626');}
+
+function renderRep(){
+  const tot=data.length,tA=data.reduce((s,x)=>s+(parseFloat(x.area)||0),0),tO=data.reduce((s,x)=>s+(parseFloat(x.oos)||0),0),tPay=pays.reduce((s,x)=>s+(parseFloat(x.am)||0),0),tWt=pays.reduce((s,x)=>s+(parseFloat(x.wt)||0),0);
+  document.getElementById('sum-grid').innerHTML=[['👨‍🌾','एकूण शेतकरी',tot,''],['🌿','एकूण जमीन',tA.toFixed(1),'एकर'],['🍬','अपेक्षित ऊस',tO.toFixed(1),'टन'],['⚖️','तोडलेला ऊस',tWt.toFixed(1),'टन'],['💰','एकूण पेमेंट','₹'+tPay.toLocaleString('en-IN'),'']].map(([ic,dc,vl,un])=>`<div class="sc"><span class="si">${ic}</span><div class="sv">${vl}</div><div class="sd">${dc} ${un}</div></div>`).join('');
+  const vil={};
+  data.forEach(s=>{if(!vil[s.village])vil[s.village]={c:0,a:0,o:0,p:0};vil[s.village].c++;vil[s.village].a+=parseFloat(s.area)||0;vil[s.village].o+=parseFloat(s.oos)||0;});
+  pays.forEach(p=>{if(vil[p.village])vil[p.village].p+=parseFloat(p.am)||0;});
+  const vt=document.getElementById('v-tbody');
+  const vk=Object.keys(vil).sort();
+  if(!vk.length){vt.innerHTML='<tr><td colspan="5"><div class="es"><span class="ei">🏘️</span>डेटा नाही</div></td></tr>';return;}
+  vt.innerHTML=vk.map(v=>`<tr><td><b>${v}</b></td><td>${vil[v].c}</td><td>${vil[v].a.toFixed(2)}</td><td>${vil[v].o.toFixed(2)}</td><td><b style="color:#166534">₹${vil[v].p.toLocaleString('en-IN')}</b></td></tr>`).join('');
+}
+
+updHdr();
+
+
+function adminLogin(){
+
+let user=document.getElementById("adminUser").value
+let pass=document.getElementById("adminPass").value
+
+if(user==="rasika" && pass==="8828"){
+
+localStorage.setItem("admin","true")
+
+document.getElementById("loginPage").style.display="none"
+
+}
+else{
+
+document.getElementById("loginMsg").innerText="Invalid Username or Password"
+
+}
+
+}
+
+window.onload=function(){
+
+if(localStorage.getItem("admin")==="true"){
+
+document.getElementById("loginPage").style.display="none"
+
+}
+
+}
+
+
+
+
+
+function logout(){
+
+localStorage.removeItem("admin")
+
+location.reload()
+
+}
+
+
+</script>
+</body>
+</html>
